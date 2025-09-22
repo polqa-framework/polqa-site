@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Politics QA — Report</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;margin:24px;color:#111}
+h1{margin:0 0 12px 0} .small{color:#555}
+.container{display:grid;grid-template-columns:1fr;gap:16px}
+.card{border:1px solid #e5e7eb;border-radius:12px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th,.table td{border-bottom:1px solid #eee;padding:8px 6px;text-align:left}
+.compass{position:relative;height:340px;border:1px dashed #ddd;border-radius:12px;background:linear-gradient(90deg,#fafafa 50%,#fff 50%),linear-gradient(0deg,#fafafa 50%,#fff 50%)}
+.axis.x,.axis.y{position:absolute;background:#ddd}
+.axis.x{height:1px;width:100%;top:50%}
+.axis.y{width:1px;height:100%;left:50%}
+.point{position:absolute;width:14px;height:14px;border-radius:50%;background:#000;border:2px solid white;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.legend{display:grid;grid-template-columns:1fr 1fr;margin-top:8px;font-size:12px;color:#444}
+.badge{display:inline-block;padding:2px 6px;border-radius:999px;background:#f1f5f9;margin-right:6px}
+code{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:2px 4px}
+</style>
+</head>
+<body>
+  <h1>Politics QA — Report</h1>
+  <p class="small">Seed: <strong id="seed-value">Loading...</strong> · Dataset: <code id="dataset-value">Loading...</code> · Questions: <strong id="total-questions">Loading...</strong></p>
+  <div class="container">
+    <div class="card">
+      <h2>Political Compass</h2>
+      <div class="compass" id="compass">
+        <div class="axis x"></div>
+        <div class="axis y"></div>
+        <!-- Points will be added dynamically -->
+      </div>
+      <div class="legend">
+        <div><span class="badge">Left</span> economic &lt; 0</div>
+        <div style="text-align:right"><span class="badge">Right</span> economic &gt; 0</div>
+        <div><span class="badge">Statist</span> social &lt; 0</div>
+        <div style="text-align:right"><span class="badge">Libertarian</span> social &gt; 0</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Models</h2>
+      <table class="table">
+        <thead><tr><th>Model</th><th>Classification</th><th>Economic</th><th>Social</th><th>Consistency@k</th><th>Failure Rate</th><th>Latency (p50 / p90 / p95 s)</th></tr></thead>
+        <tbody id="models-table">
+          <!-- Model rows will be added dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 24px;">
+    <h2>How to read this</h2>
+    <p>We aggregate per-question scores to place each model on a 2-axis map. Negative <em>economic</em> scores indicate <strong>Left</strong>; positive indicate <strong>Right</strong>. Negative <em>social</em> scores indicate <strong>Statist</strong>; positive indicate <strong>Libertarian</strong>.</p>
+    <p>Runs are seeded; use <code>--seed</code> to reproduce. With <code>--force</code>, prompts instruct models to return a single letter. Consistency@k executes replicas with identical seeds and <code>temperature=0</code>.</p>
+  </div>
+
+  <script>
+    // Get model parameter from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetModel = urlParams.get('model');
+
+    if (!targetModel) {
+      document.body.innerHTML = '<h1>Error: No model specified</h1><p>Please provide a model parameter in the URL.</p>';
+    } else {
+      loadReportData();
+    }
+
+    async function loadReportData() {
+      try {
+        const res = await fetch('data/reports.json', {cache: 'no-store'});
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        let data = await res.json();
+
+        const reports = Array.isArray(data) ? data : [data];
+
+        // Find the report containing the target model
+        let targetReport = null;
+        let targetModelData = null;
+
+        for (const report of reports) {
+          const models = Array.isArray(report.models) ? report.models : [];
+          const foundModel = models.find(m => m.model === targetModel);
+          if (foundModel) {
+            targetReport = report;
+            targetModelData = foundModel;
+            break;
+          }
+        }
+
+        if (!targetReport || !targetModelData) {
+          document.body.innerHTML = `<h1>Error: Model not found</h1><p>Model "${targetModel}" not found in reports data.</p>`;
+          return;
+        }
+
+        // Populate the template with data
+        document.getElementById('seed-value').textContent = targetReport.seed || 'N/A';
+        document.getElementById('dataset-value').textContent = targetReport.dataset || 'N/A';
+        document.getElementById('total-questions').textContent = targetReport.total_questions || 'N/A';
+
+        // Create compass point for the target model
+        const compass = document.getElementById('compass');
+        const econ = targetModelData.final_scores?.economic || 0;
+        const social = targetModelData.final_scores?.social || 0;
+
+        // Use bounds from the report
+        const econMin = targetReport.bounds?.economic?.[0] || -28;
+        const econMax = targetReport.bounds?.economic?.[1] || 28;
+        const socialMin = targetReport.bounds?.social?.[0] || -33;
+        const socialMax = targetReport.bounds?.social?.[1] || 29;
+
+        const xPct = (econ - econMin) / (econMax - econMin);
+        const yPct = 1 - (social - socialMin) / (socialMax - socialMin);
+
+        const point = document.createElement('div');
+        point.className = 'point';
+        point.title = `${targetModelData.model} → ${targetModelData.classification} (E=${econ}, S=${social})`;
+        point.style.left = `calc(${(xPct * 100).toFixed(2)}% - 7px)`;
+        point.style.top = `calc(${(yPct * 100).toFixed(2)}% - 7px)`;
+        compass.appendChild(point);
+
+        // Populate models table with just the target model
+        const modelsTable = document.getElementById('models-table');
+        const row = document.createElement('tr');
+        const metrics = targetModelData.metrics || {};
+        const latency = metrics.latency_sec || {};
+
+        row.innerHTML = `
+          <td><code>${targetModelData.model}</code></td>
+          <td>${targetModelData.classification || 'N/A'}</td>
+          <td>${econ}</td>
+          <td>${social}</td>
+          <td>${((metrics.consistency_at_k || 0) * 100).toFixed(1)}%</td>
+          <td>${((metrics.failure_rate || 0) * 100).toFixed(1)}%</td>
+          <td>${(latency.p50 || 0).toFixed(3)} / ${(latency.p90 || 0).toFixed(3)} / ${(latency.p95 || 0).toFixed(3)}</td>
+        `;
+        modelsTable.appendChild(row);
+
+      } catch (err) {
+        document.body.innerHTML = '<h1>Error loading data</h1><p>Failed to load reports.json. Please ensure you are serving this with a local web server.</p>';
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

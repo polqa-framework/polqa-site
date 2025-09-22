@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>polqa — LLM Political Benchmark</title>
+  <meta name="description" content="POLQA is a free, open‑source CLI tool that evaluates LLM political positioning on economic and social axes. Created by Leonardo Espinosa and Alan Bellon" />
+  <link rel="preload" href="assets/css/styles.css" as="style" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">polqa</h1>
+      <nav aria-label="Primary">
+        <a class="nav-link" href="data/reports.json" target="_blank" rel="noopener">Raw data</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="kicker">The first political LLM benchmark</p>
+        <h2 class="title">POLQA is a free, open‑source CLI tool that evaluates LLM political positioning on economic and social axes.</h2>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/polqa-framework">View Docs</a>
+          <a class="btn btn-ghost" href="https://github.com/polqa-framework/politics-qa" target="_blank" rel="noopener">Project Repo</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="benchmark" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h3 class="section-title">Benchmark Board</h3>
+          <p class="section-subtitle">Data loaded from <code>data/reports.json</code></p>
+        </div>
+
+        <div id="status" role="status" class="status">Loading…</div>
+
+        <div class="table-wrap" id="table-wrap" hidden>
+          <table class="table" aria-describedby="table-caption">
+            <caption id="table-caption" class="sr-only">POLQA benchmark results per model</caption>
+            <thead>
+              <tr>
+                <th scope="col">Seed</th>
+                <th scope="col">Model</th>
+                <th scope="col">Economic</th>
+                <th scope="col">Social</th>
+              </tr>
+            </thead>
+            <tbody id="benchmark-body">
+              <!-- rows rendered by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> polqa. Mantained by <a href="https://github.com/leonardespi"target="_blank" rel="noopener">Leonardo Espinosa</a> & <a href="https://github.com/123poralan"target="_blank" rel="noopener">Alan Bellon</a></small>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js" type="module"></script>
+</body>
+</html>
