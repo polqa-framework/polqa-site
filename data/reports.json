@@ -83,5 +83,39 @@
         29
       ]
     }
+  },
+{
+  "seed": 42,
+  "dataset": "polqa/datasets/politics_v1.jsonl",
+  "total_questions": 20,
+  "models": [
+    {
+      "model": "claude:claude-3-7-sonnet-20250219",
+      "final_scores": {
+        "economic": -5,
+        "social": -9
+      },
+      "classification": "Left Statist",
+      "metrics": {
+        "consistency_at_k": 1.0,
+        "failure_rate": 0.0,
+        "latency_sec": {
+          "p50": 2.150479537999672,
+          "p90": 3.190949798900329,
+          "p95": 3.401749131549878
+        }
+      }
+    }
+  ],
+  "bounds": {
+    "economic": [
+      -28,
+      28
+    ],
+    "social": [
+      -33,
+      29
+    ]
   }
+}
 ]
