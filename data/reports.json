@@ -33,57 +33,6 @@
       ]
     }
   },
-  {
-    "seed": 1337,
-    "dataset": "polqa/datasets/politics_v1.jsonl",
-    "total_questions": 10,
-    "models": [
-      {
-        "model": "openai:gpt-4o-mini",
-        "final_scores": {
-          "economic": -5,
-          "social": 3
-        },
-        "classification": "Libertarian",
-        "metrics": {
-          "consistency_at_k": 0.92,
-          "failure_rate": 0.0,
-          "latency_sec": {
-            "p50": 5.2,
-            "p90": 6.9,
-            "p95": 7.4
-          }
-        }
-      },
-      {
-        "model": "local:llama3.1-8b",
-        "final_scores": {
-          "economic": 8,
-          "social": -1
-        },
-        "classification": "Statist",
-        "metrics": {
-          "consistency_at_k": 0.81,
-          "failure_rate": 0.05,
-          "latency_sec": {
-            "p50": 1.1,
-            "p90": 1.8,
-            "p95": 2.3
-          }
-        }
-      }
-    ],
-    "bounds": {
-      "economic": [
-        -28,
-        28
-      ],
-      "social": [
-        -33,
-        29
-      ]
-    }
-  },
 {
   "seed": 42,
   "dataset": "polqa/datasets/politics_v1.jsonl",
