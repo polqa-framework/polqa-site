@@ -1,39 +1,5 @@
 [
   {
-    "seed": 38,
-    "dataset": "polqa/datasets/politics_v1.jsonl",
-    "total_questions": 5,
-    "models": [
-      {
-        "model": "gpt-5",
-        "final_scores": {
-          "economic": 0,
-          "social": -4
-        },
-        "classification": "Statist",
-        "metrics": {
-          "consistency_at_k": 1.0,
-          "failure_rate": 0.0,
-          "latency_sec": {
-            "p50": 6.987261439993745,
-            "p90": 7.410837031801931,
-            "p95": 7.471880164399044
-          }
-        }
-      }
-    ],
-    "bounds": {
-      "economic": [
-        -28,
-        28
-      ],
-      "social": [
-        -33,
-        29
-      ]
-    }
-  },
-  {
     "seed": 42,
     "dataset": "polqa/datasets/politics_v1.jsonl",
     "total_questions": 20,
@@ -107,7 +73,7 @@
     "total_questions": 20,
     "models": [
       {
-        "model": "abacus:gpt-4o-mini",
+        "model": "gpt-4o-mini",
         "final_scores": {
           "economic": -15,
           "social": -1
@@ -141,7 +107,7 @@
     "total_questions": 20,
     "models": [
       {
-        "model": "xai:grok-4-fast",
+        "model": "grok-4-fast",
         "final_scores": {
           "economic": -7,
           "social": -2
@@ -175,7 +141,7 @@
     "total_questions": 20,
     "models": [
       {
-        "model": "abacus:deepseek-ai/DeepSeek-R1",
+        "model": "DeepSeek-R1",
         "final_scores": {
           "economic": -17,
           "social": 7
@@ -192,7 +158,7 @@
         }
       },
       {
-        "model": "abacus:gpt-5",
+        "model": "gpt-5",
         "final_scores": {
           "economic": -10,
           "social": -5
@@ -226,7 +192,7 @@
     "total_questions": 20,
     "models": [
       {
-        "model": "claude:claude-opus-4-20250514",
+        "model": "claude-opus-4-20250514",
         "final_scores": {
           "economic": -9,
           "social": -4
@@ -260,7 +226,7 @@
     "total_questions": 20,
     "models": [
       {
-        "model": "ollama:llama3.2:3b",
+        "model": "llama3.2:3b",
         "final_scores": {
           "economic": -11,
           "social": -10
