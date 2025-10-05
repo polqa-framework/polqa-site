@@ -253,5 +253,39 @@
         29
       ]
     }
+  },
+  {
+  "seed": 42,
+  "dataset": "polqa/datasets/politics_v1.jsonl",
+  "total_questions": 20,
+  "models": [
+    {
+      "model": "Kimi-K2-Instruct",
+      "final_scores": {
+        "economic": -18,
+        "social": 2
+      },
+      "classification": "Left Libertarian",
+      "metrics": {
+        "consistency_at_k": 1.0,
+        "failure_rate": 0.0,
+        "latency_sec": {
+          "p50": 0.8714862655033357,
+          "p90": 1.1300761348014936,
+          "p95": 1.4358478916554305
+        }
+      }
+    }
+  ],
+  "bounds": {
+    "economic": [
+      -28,
+      28
+    ],
+    "social": [
+      -33,
+      29
+    ]
   }
+}
 ]
