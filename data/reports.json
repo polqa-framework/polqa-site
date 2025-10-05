@@ -134,5 +134,39 @@
         29
       ]
     }
+  },
+  {
+    "seed": 42,
+    "dataset": "polqa/datasets/politics_v1.jsonl",
+    "total_questions": 20,
+    "models": [
+      {
+        "model": "xai:grok-4-fast",
+        "final_scores": {
+          "economic": -7,
+          "social": -2
+        },
+        "classification": "Left Statist",
+        "metrics": {
+          "consistency_at_k": 1.0,
+          "failure_rate": 0.0,
+          "latency_sec": {
+            "p50": 1.4398763044955558,
+            "p90": 2.0248552334989665,
+            "p95": 2.740833414052759
+          }
+        }
+      }
+    ],
+    "bounds": {
+      "economic": [
+        -28,
+        28
+      ],
+      "social": [
+        -33,
+        29
+      ]
+    }
   }
 ]
