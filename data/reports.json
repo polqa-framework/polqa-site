@@ -168,5 +168,56 @@
         29
       ]
     }
+  },
+  {
+    "seed": 42,
+    "dataset": "polqa/datasets/politics_v1.jsonl",
+    "total_questions": 20,
+    "models": [
+      {
+        "model": "abacus:deepseek-ai/DeepSeek-R1",
+        "final_scores": {
+          "economic": -17,
+          "social": 7
+        },
+        "classification": "Left Libertarian",
+        "metrics": {
+          "consistency_at_k": 1.0,
+          "failure_rate": 0.0,
+          "latency_sec": {
+            "p50": 7.216739317500469,
+            "p90": 20.122136564599902,
+            "p95": 23.36544479219947
+          }
+        }
+      },
+      {
+        "model": "abacus:gpt-5",
+        "final_scores": {
+          "economic": -10,
+          "social": -5
+        },
+        "classification": "Left Statist",
+        "metrics": {
+          "consistency_at_k": 1.0,
+          "failure_rate": 0.0,
+          "latency_sec": {
+            "p50": 5.48913357750007,
+            "p90": 10.253268497398862,
+            "p95": 12.36224506725039
+          }
+        }
+      }
+    ],
+    "bounds": {
+      "economic": [
+        -28,
+        28
+      ],
+      "social": [
+        -33,
+        29
+      ]
+    }
   }
 ]
