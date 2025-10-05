@@ -101,43 +101,4 @@
       ]
     }
   }
-<<<<<<< HEAD
-},
-{
-  "seed": 42,
-  "dataset": "polqa/datasets/politics_v1.jsonl",
-  "total_questions": 20,
-  "models": [
-    {
-      "model": "abacus:gpt-4o-mini",
-      "final_scores": {
-        "economic": -15,
-        "social": -1
-      },
-      "classification": "Left Statist",
-      "metrics": {
-        "consistency_at_k": 1.0,
-        "failure_rate": 0.0,
-        "latency_sec": {
-          "p50": 1.2327936374999808,
-          "p90": 2.1198391922999695,
-          "p95": 2.372655907850185
-        }
-      }
-    }
-  ],
-  "bounds": {
-    "economic": [
-      -28,
-      28
-    ],
-    "social": [
-      -33,
-      29
-    ]
-  }
-}
 ]
-=======
-]
->>>>>>> b8fb23f3581bdb45447a2a0f70f0d55870ffa8d6
