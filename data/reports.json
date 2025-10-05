@@ -219,5 +219,39 @@
         29
       ]
     }
+  },
+  {
+    "seed": 42,
+    "dataset": "polqa/datasets/politics_v1.jsonl",
+    "total_questions": 20,
+    "models": [
+      {
+        "model": "claude:claude-opus-4-20250514",
+        "final_scores": {
+          "economic": -9,
+          "social": -4
+        },
+        "classification": "Left Statist",
+        "metrics": {
+          "consistency_at_k": 1.0,
+          "failure_rate": 0.1,
+          "latency_sec": {
+            "p50": 2.18928272300127,
+            "p90": 4.22790506739948,
+            "p95": 4.816253834550302
+          }
+        }
+      }
+    ],
+    "bounds": {
+      "economic": [
+        -28,
+        28
+      ],
+      "social": [
+        -33,
+        29
+      ]
+    }
   }
 ]
